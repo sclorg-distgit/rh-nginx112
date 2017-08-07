@@ -17,7 +17,7 @@
 Summary:       Package that installs %scl
 Name:          %scl_name
 Version:       1.12
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       GPLv2+
 Group: Applications/File
 Source0: README
@@ -45,7 +45,9 @@ Package shipping essential scripts to work with %scl Software Collection.
 %package build
 Summary:   Package shipping basic build configuration
 Requires:  scl-utils-build
+%ifarch x86_64
 Requires: %{scl_prefix_perl}scldevel
+%endif
 
 %description build
 Package shipping essential configuration macros to build %scl Software Collection.
@@ -117,6 +119,7 @@ install -m 644 README.7 %{buildroot}%{_mandir}/man7/%{scl_name}.7
 
 %scl_install
 
+%ifarch x86_64
 cat >> %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config << EOF
 %%scl_package_override() %%{expand:%%global __perl_requires /usr/lib/rpm/perl.req.rh-perl524 \
 %%global __perl_provides /usr/lib/rpm/perl.prov.rh-perl524 \
@@ -124,6 +127,9 @@ cat >> %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config << EOF
 %%global _nginx_perl_vendorarch %{nginx_perl_vendorarch} \
 }
 EOF
+%else
+touch %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config
+%endif
 
 # create directory for SCL register scripts
 mkdir -p %{buildroot}%{?_scl_scripts}/register.content
@@ -183,5 +189,5 @@ selinuxenabled && load_policy || :
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
-* Fri Jun 09 2017 Luboš Uhliarik <luhliari@redhat.com> - 1.12-1
+* Fri Jun 09 2017 Luboš Uhliarik <luhliari@redhat.com> - 1.12-2
 - initial packaging
