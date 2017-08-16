@@ -17,7 +17,7 @@
 Summary:       Package that installs %scl
 Name:          %scl_name
 Version:       1.12
-Release:       2%{?dist}
+Release:       3%{?dist}
 License:       GPLv2+
 Group: Applications/File
 Source0: README
@@ -189,5 +189,9 @@ selinuxenabled && load_policy || :
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
+* Tue Jul 11 2017 Luboš Uhliarik <luhliari@redhat.com> - 1.12-3
+- Resolves: #1469535 - mistakes in README file
+- Resolves: #1264421 - Unexpanded macros in metapackage README
+
 * Fri Jun 09 2017 Luboš Uhliarik <luhliari@redhat.com> - 1.12-2
 - initial packaging
